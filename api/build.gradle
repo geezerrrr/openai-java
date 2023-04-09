@@ -1,5 +1,6 @@
 apply plugin: 'java-library'
-apply plugin: "com.vanniktech.maven.publish"
+//apply plugin: "com.vanniktech.maven.publish"
+apply plugin: "maven-publish"
 
 dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.0'
@@ -9,6 +10,20 @@ dependencies {
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
     testImplementation(platform('org.junit:junit-bom:5.8.2'))
     testImplementation('org.junit.jupiter:junit-jupiter')
+}
+
+// 子模块 build.gradle
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            // 设置项目的 groupId, artifactId 和 version
+            groupId GROUP
+            artifactId POM_ARTIFACT_ID
+            version VERSION_NAME + '-SNAPSHOT'
+        }
+    }
 }
 
 compileJava {
